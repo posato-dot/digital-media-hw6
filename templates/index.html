@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>第06讲 · 爬虫数据展示</title>
+  <style>
+    body{font-family:"Microsoft YaHei",sans-serif;max-width:980px;margin:32px auto;color:#222}
+    h1{color:#1a3a6b;font-size:24px}
+    form{margin:18px 0}
+    input[type=text]{width:320px;padding:8px 10px;border:1px solid #bbb;border-radius:4px}
+    button{padding:8px 16px;background:#1a3a6b;color:#fff;border:0;border-radius:4px;cursor:pointer}
+    table{border-collapse:collapse;width:100%;margin-top:12px}
+    th,td{border:1px solid #ddd;padding:8px 10px;text-align:left;font-size:14px}
+    th{background:#1a3a6b;color:#fff}
+    tr:nth-child(even){background:#f6f8fb}
+    .empty{padding:24px;background:#fff6e5;border:1px solid #ffd591;border-radius:4px;color:#8a5a00}
+    .count{color:#666;font-size:14px;margin-left:12px}
+    a{color:#1a5fb4;text-decoration:none}
+  </style>
+</head>
+<body>
+  <h1>抓取数据展示 <span class="count">共 {{ total }} 条</span></h1>
+
+  <form method="get" action="/">
+    <input type="text" name="q" value="{{ q }}" placeholder="按书名搜索（不区分大小写）">
+    <button type="submit">搜索</button>
+    {% if q %}<a href="/" style="margin-left:12px">清空</a>{% endif %}
+  </form>
+
+  {% if items %}
+  <table>
+    <thead><tr><th>#</th><th>书名</th><th>价格</th><th>评分</th><th>详情链接</th></tr></thead>
+    <tbody>
+      {% for it in items %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ it.title }}</td>
+        <td>{{ it.price }}</td>
+        <td>{{ it.rating }}</td>
+        <td><a href="{{ it.url }}" target="_blank" rel="noopener">查看</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty">没有匹配「{{ q }}」的记录，换个关键词试试。</div>
+  {% endif %}
+</body>
+</html>
